@@ -12,7 +12,7 @@ class Client extends User
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $no = null;
+    private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
@@ -37,14 +37,14 @@ class Client extends User
         return $this;
     }
 
-    public function getNo(): ?string
+    public function getprenom(): ?string
     {
-        return $this->no;
+        return $this->prenom;
     }
 
-    public function setNo(string $no): static
+    public function setprenom(string $prenom): static
     {
-        $this->no = $no;
+        $this->prenom = $prenom;
 
         return $this;
     }

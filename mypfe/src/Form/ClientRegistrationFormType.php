@@ -16,7 +16,7 @@ class ClientRegistrationFormType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('no')
+            ->add('prenom')
             ->add('adresse')
             ->add('num_tel')
             ->add('email', EmailType::class)

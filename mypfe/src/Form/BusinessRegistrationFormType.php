@@ -15,8 +15,11 @@ class BusinessRegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('ownerName')
+            ->add('ownerLastName')
             ->add('businessName')
             ->add('description')
+            ->add('phone')
             ->add('adresse')
             ->add('ig_TT')
             ->add('fb_link')
