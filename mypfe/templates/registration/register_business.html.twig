@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register Business{% endblock %}
+
+{% block body %}
+    <h1>Register Business</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_widget(registrationForm) }}
+        <button class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
