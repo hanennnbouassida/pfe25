@@ -1,5 +1,51 @@
-<!-- ...existing code... -->
+{% extends 'base.html.twig' %}
 
-<p>This is business</p>
+{% block title %}Business Dashboard{% endblock %}
 
-<!-- ...existing code... -->
+{% block body %}
+    <h1>Business Dashboard</h1>
+    
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    <h2>Add Product</h2>
+    <a href="{{ path('add_product_route', {'business_id': business.id}) }}" class="btn btn-primary">Add New Product</a>
+    <h2>Products</h2>
+    <table>
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Product Description</th>
+           <th>Product Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.getProductName() }}</td>
+            <td>{{ product.getProductDescription }}</td>
+            <td>{{ product.getPrice }}</td>
+             <td>
+                <a href="{{ path('product_show', {'id': product.id}) }}">View</a>
+                <a href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>
+                <a href="{{ path('product_delete', {'id': product.id}) }}">Delete</a>
+            </td> 
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        <h2>Order management</h2>
+        <h2>sales management</h2>
+         <h2>Custumors & Reviews management</h2>
+
+         <h2>Promotions and coupons</h2>
+
+         <h2> Settings & Account Management </h2>
+        <h2> Stock Management </h2>
+
+{% endblock %}

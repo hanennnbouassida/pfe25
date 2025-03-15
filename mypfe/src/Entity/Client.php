@@ -25,6 +25,9 @@ class Client extends User
      */
     private ?string $plainPassword = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $status = 'active';
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -61,16 +64,16 @@ class Client extends User
         return $this;
     }
 
-    public function getNumTel(): ?int
-    {
-        return $this->num_tel;
-    }
-
     public function setNumTel(int $num_tel): static
     {
         $this->num_tel = $num_tel;
 
         return $this;
+    }
+
+    public function getNumTel(): ?int
+    {
+        return $this->num_tel;
     }
 
     public function getPlainPassword(): ?string
@@ -84,5 +87,16 @@ class Client extends User
 
         return $this;
     }
-     
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 }

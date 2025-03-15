@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Details{% endblock %}
+
+{% block body %}
+    <h1>Product Details</h1>
+    <p>ID: {{ product.id }}</p>
+    <p>Name: {{ product.getProductName() }}</p>
+    <p>Description: {{ product.getProductDescription }}</p>
+    <p>Price: {{ product.getPrice }}</p>
+    <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-primary">Edit</a>
+    <a href="{{ path('dashboard_business') }}" class="btn btn-secondary">Back to Dashboard</a>
+{% endblock %}

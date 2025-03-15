@@ -53,7 +53,7 @@ class AppAuthAuthenticator extends AbstractLoginFormAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('dashboard_client'));
     }
 
-    return new RedirectResponse($this->urlGenerator->generate('homepage')); // Change this to an existing route
+    return new RedirectResponse($this->urlGenerator->generate('dashboard_admin')); // Change this to an existing route
 }
 
 

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: BusinessRepository::class)]
 class Business extends User
 {
@@ -52,11 +53,11 @@ class Business extends User
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'Business')]
     private Collection $products;
 
+    
     public function __construct()
     {
         $this->products = new ArrayCollection();
     } // Values: pending, approved, rejected
-
 
     public function getBusinessName(): ?string
     {
@@ -218,4 +219,6 @@ class Business extends User
 
         return $this;
     }
+
+
 }

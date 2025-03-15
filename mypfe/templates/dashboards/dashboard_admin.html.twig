@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+    <h1>Admin Dashboard</h1>
+    
+    {% if app.user %}
+        <div class="mb-3">
+    You are logged in as {{ app.user.userIdentifier }}, 
+    <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
+</div>
+
+    {% endif %}
+        <h2>Dashboard Overview</h2>
+        <p>Number of registered businesses
+Number of products listed
+Number of users (customers & business owners)
+number of categories
+Best-Selling Products: List the top 5 most purchased products.
+Total sales/revenue (if applicable)
+Orders Summary: Number of completed, pending, or canceled orders.
+</p>
+<h2>Manage Admins</h2>
+<a href="{{ path('register_admin') }}" class="btn btn-primary">Register New Admin</a>
+<hr>
+    <h2>Manage Categories</h2>
+    <a href="{{ path('manage_categories') }}" class="btn btn-primary">Manage Categories</a>
+<hr>
+<h2>Manage Clients</h2>
+    <a href="{{ path('manage_clients') }}" class="btn btn-primary">Manage Clients</a>
+<hr>
+    <h2>Manage Business</h2>
+   <a href="{{ path('manage_businesses') }}" class="btn btn-primary">Manage Business</a>
+<hr>
+    
+<h2>Products Overview</h2>
+<a href="{{ path('products_list') }}" class="btn btn-primary">View Products</a>
+<hr>
+<p>
+-pending approval products
+-Most sold products
+-Flagged/reported products (if applicable)
+-Edit or remove inappropriate products ?????????????????
+</p>
+
+{% endblock %}

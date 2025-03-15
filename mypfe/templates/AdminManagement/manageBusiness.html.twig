@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category Management{% endblock %}
+{% block body %}
+<h2>Manage businesses</h2>
+ <table>
+        <thead>
+            <tr>
+                <th>Business ID</th>
+                <th>Business Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for business in businesses %}
+            <tr>
+                <td>{{ business.id }}</td>
+                <td>{{ business.businessName }}</td>
+                <td>{{ business.status }}</td>
+                <td>
+                    <a href="{{ path('business_approve', {'id': business.id}) }}">Approve</a>
+                    <a href="{{ path('business_reject', {'id': business.id}) }}">Reject</a>
+                </td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

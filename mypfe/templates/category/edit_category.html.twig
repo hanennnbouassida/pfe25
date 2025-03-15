@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %} Update category{% endblock %}
+{% block body %}
+    <h1>change Category Name</h1>
+    {{ form_start(categoryType) }}
+    {{ form_widget(categoryType) }}
+    <button type="submit">change</button>
+    {{ form_end(categoryType) }}
+    {% endblock %}

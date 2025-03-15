@@ -2,23 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DashboardController extends AbstractController
+class ClientDashboardController extends AbstractController
 {
-    
-      #[Route("/dashboard_business", name:"dashboard_business")]
-     
-    public function businessDashboard(): Response
+    private $security;
+
+    public function __construct(Security $security)
     {
-        return $this->render('dashboards/dashboard_business.html.twig');
+        $this->security = $security;
     }
 
-
-     #[Route("/dashboard_client", name:"dashboard_client")]
-     
+    #[Route("/dashboard/client", name:"dashboard_client")]
     public function clientDashboard(): Response
     {
         return $this->render('dashboards/dashboard_client.html.twig');

@@ -30,6 +30,9 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Business $Business = null;
 
+    #[ORM\Column(length: 255, options: ["default" => "pending"])]
+    private ?string $status = "pending";
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class Product
     public function setBusiness(?Business $Business): static
     {
         $this->Business = $Business;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

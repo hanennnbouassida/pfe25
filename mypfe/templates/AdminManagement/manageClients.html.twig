@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category Management{% endblock %}
+{% block body %}
+
+<h2>Manage clients</h2>
+
+<table>
+        <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Client Name</th>
+                 <th>Client Last Name</th>
+                <th>Client Phone Number</th>
+                <th>Client adresse</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.id }}</td>
+                <td>{{ client.nom }}</td>
+                <td>{{ client.prenom }}</td>
+                <td>{{ client.getNumTel() }}</td>
+                <td>{{ client.adresse }}</td>
+                
+                <td>
+                   <a href="{{ path('delete_client', {'id': client.id}) }}">delete</a>
+                {% if client.status == 'active' %}
+                    <a href="{{ path('block_client', {'id': client.id}) }}">block</a>
+                {% else %}
+                    <a href="{{ path('unblock_client', {'id': client.id}) }}">unblock</a>
+                {% endif %}
+                </td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

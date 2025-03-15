@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2>Product List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category ID</th>
+                    <th>Business ID</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                     <th>Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.category.id }}</td>
+                        <td>{{ product.business.id }}</td>
+                        <td>{{ product.productName }}</td>
+                        <td>{{ product.productDescription }}</td>
+                        <td>{{ product.price }} TND</td>
+                        <td>
+                    <a href="{{ path('product_approve', {'id': product.id}) }}">Approve</a>
+                    <a href="{{ path('product_reject', {'id': product.id}) }}">Reject</a>
+                </td> 
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
