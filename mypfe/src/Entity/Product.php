@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[Vich\Uploadable]
 class Product
 {
     #[ORM\Id]
@@ -13,6 +17,21 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageproduct = null;
+
+    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageproduct')]
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/jpeg', 'image/png'],
+        mimeTypesMessage: 'Veuillez télécharger une image valide (JPEG ou PNG)'
+    )]
+    private ?File $photoFile = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $updatedAt = null;
+
+    //--------------------------------------------------------------------------------
     #[ORM\Column(length: 255)]
     private ?string $product_name = null;
 
@@ -107,6 +126,42 @@ class Product
     {
         $this->status = $status;
 
+        return $this;
+    }
+
+    public function getimageproduct(): ?string
+    {
+        return $this->imageproduct;
+    }
+
+    public function setimageproduct(?string $imageproduct): self
+    {
+        $this->imageproduct = $imageproduct;
+        return $this;
+    }
+
+    public function setPhotoFile(?File $photoFile = null): void
+    {
+        $this->photoFile = $photoFile;
+
+        if ($photoFile) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getPhotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

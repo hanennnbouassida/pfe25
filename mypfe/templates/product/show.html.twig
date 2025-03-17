@@ -8,6 +8,11 @@
     <p>Name: {{ product.getProductName() }}</p>
     <p>Description: {{ product.getProductDescription }}</p>
     <p>Price: {{ product.getPrice }}</p>
+    
+    <div>
+     <img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" alt="{{ product.getProductName() }}" />
+    </div>
+
     <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-primary">Edit</a>
     <a href="{{ path('dashboard_business') }}" class="btn btn-secondary">Back to Dashboard</a>
 {% endblock %}
