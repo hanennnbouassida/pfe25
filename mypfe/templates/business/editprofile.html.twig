@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ isEditing ? 'Edit Business' : 'Register Business' }}{% endblock %}
+
+{% block content %}
+    <h1>{{ isEditing ? 'Edit Your Business Profile' : 'Register Business' }}</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_widget(registrationForm) }}
+    <button class="btn">{{ isEditing ? 'Update Profile' : 'Register' }}</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

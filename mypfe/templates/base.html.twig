@@ -40,9 +40,14 @@
             </div> 
 
             {# Login/Sign-Up #}
-            <div class="auth-links">
-                <a href="{{ path('app_login') }}">Login</a> | <a href="{{ path('app_register_client') }}">Sign Up</a>
-            </div>
+           <div class="auth-links">
+    {% if app.user %}
+        <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
+    {% else %}
+        <a href="{{ path('app_login') }}">Login</a> | <a href="{{ path('app_register_client') }}">Sign Up</a>
+    {% endif %}
+</div>
+
 
             {# Dashboard Button (Access for Business Owners) #}
             <div class="dashboard">

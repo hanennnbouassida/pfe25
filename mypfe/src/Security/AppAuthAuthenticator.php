@@ -50,7 +50,7 @@ class AppAuthAuthenticator extends AbstractLoginFormAuthenticator
     if (in_array('ROLE_BUSINESS', $user->getRoles())) {
         return new RedirectResponse($this->urlGenerator->generate('dashboard_business'));
     } elseif (in_array('ROLE_CLIENT', $user->getRoles())) {
-        return new RedirectResponse($this->urlGenerator->generate('dashboard_client'));
+        return new RedirectResponse($this->urlGenerator->generate('home'));
     }
 
     return new RedirectResponse($this->urlGenerator->generate('dashboard_admin')); // Change this to an existing route

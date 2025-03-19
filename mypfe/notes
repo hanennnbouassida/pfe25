@@ -1,0 +1,81 @@
+    <!-- Filtering and Ordering Section -->
+
+<div class="shop-sidebar">
+    <h3>Filters</h3>
+    
+    <!-- Filter by Category -->
+    <div class="filter-category">
+      <h4>Category</h4>
+      <ul>
+        {% for category in categories %}
+          <li><a href="{{ path('shop', {'category': category.name}) }}">{{ category.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    
+    <!-- Filter by Price Range -->
+    <div class="filter-price">
+      <h4>Price Range</h4>
+      <form method="GET" action="{{ path('shop') }}">
+        <input type="number" name="min_price" placeholder="Min Price" value="{{ app.request.get('min_price') }}">
+        <input type="number" name="max_price" placeholder="Max Price" value="{{ app.request.get('max_price') }}">
+        <button type="submit">Apply</button>
+      </form>
+    </div>
+
+    <!-- Filter by Availability -->
+    <div class="filter-availability">
+      <h4>Availability</h4>
+      <ul>
+        <li><a href="{{ path('shop', {'availability': 'in_stock'}) }}">In Stock</a></li>
+        <li><a href="{{ path('shop', {'availability': 'out_of_stock'}) }}">Out of Stock</a></li>
+      </ul>
+    </div>
+  </div>
+ 
+
+
+     <!-- Ordering Section -->
+     <div class="order-section">
+        <h4>Sort By</h4>
+        <form method="GET" action="{{ path('shop') }}">
+          <select name="order_by" onchange="this.form.submit()">
+            <option value="newest" {% if app.request.get('order_by') == 'newest' %}selected{% endif %}>Newest</option>
+            <option value="price_asc" {% if app.request.get('order_by') == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_desc" {% if app.request.get('order_by') == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+            <option value="best_rated" {% if app.request.get('order_by') == 'best_rated' %}selected{% endif %}>Best Rated</option>
+          </select>
+        </form>
+      </div>
+
+
+
+
+       <!-- Pagination Section -->
+       <div class="pagination">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            {% if current_page > 1 %}
+              <li class="page-item">
+                <a class="page-link" href="{{ path('shop', { 'page': current_page - 1 }) }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            {% endif %}
+
+            {% for page in 1..total_pages %}
+              <li class="page-item {% if page == current_page %}active{% endif %}">
+                <a class="page-link" href="{{ path('shop', { 'page': page }) }}">{{ page }}</a>
+              </li>
+            {% endfor %}
+
+            {% if current_page < total_pages %}
+              <li class="page-item">
+                <a class="page-link" href="{{ path('shop', { 'page': current_page + 1 }) }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>

@@ -14,6 +14,6 @@ class BrandController extends AbstractController
 
     public function index(): Response
     {
-        return $this->render('brands.html.twig');
+        return $this->render('pages/brands.html.twig');
     }
 }

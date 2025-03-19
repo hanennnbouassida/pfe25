@@ -42,7 +42,7 @@
         <p>No products available.</p>
     {% endif %}
 
-    <p class="btn btn-primary">Edit Profile</p>
+<a href="{{ path('business_editProfile', { 'id': business.id }) }}" class="btn btn-primary">Edit Profile</a>
 </div>
 
 

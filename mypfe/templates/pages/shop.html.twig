@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shop - All Products{% endblock %}
+
+{% block content %}
+<h1>Shop</h1>
+  <div class="shop-page">
+    <!-- Products Section -->
+          <h2>All Products</h2>
+      <!-- Product List -->
+      <div class="product-list">
+        {% for product in products %}
+          <div class="product-item">
+<img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" alt="{{ product.getProductName }}">
+            <h3>{{ product.getProductName }}</h3>
+            <p>{{ product.price}} |DT </p>
+            <p>{{ product.getProductDescription }}</p>
+            <button > View Details</button>
+            <button > Add To Cart</button>
+          </div>
+        {% else %}
+          <p>No products found for the selected filters.</p>
+        {% endfor %}
+      </div>
+
+     
+  </div> <!-- End of shop-page -->
+
+
+  <style>
+    /* Basic styles for the layout */
+    img {
+  width: 150px;  /* Set width to 200px */
+  height: 150px; /* Set height to 150px */
+}
+    .shop-page {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    .shop-sidebar {
+      width: 20%;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+
+    .shop-products {
+      width: 75%;
+      padding: 20px;
+    }
+
+    .filter-category, .filter-price, .filter-availability, .order-section {
+      margin-bottom: 20px;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .product-item {
+      width: 30%;
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    .pagination {
+      justify-content: center;
+    }
+  </style>
+{% endblock %}
