@@ -2,14 +2,19 @@
 
 {% block title %}Business Dashboard{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Business Dashboard</h1>
+    <img src="data:image/png;base64,{{ business.logoBase64 }}" alt="Business Logo" />
     
     {% if app.user %}
         <div class="mb-3">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
+        <h2>see Profile</h2>
+    <div>
+        <a href="{{ path('profile', {'id': business.id}) }}" class="btn btn-secondary">View Profile</a>
+    </div>
     <h2>Add Product</h2>
     <a href="{{ path('add_product_route', {'business_id': business.id}) }}" class="btn btn-primary">Add New Product</a>
     <h2>Products</h2>

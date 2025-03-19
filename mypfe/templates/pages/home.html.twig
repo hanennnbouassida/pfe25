@@ -1,0 +1,65 @@
+{# templates/pages/home.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="home-content">
+        <!-- Hero Section -->
+        <section class="hero">
+                    <h1>------------------------</h1>
+            <h1>Empowering Small Businesses in Tunisia</h1>
+            <p>Discover and support local businesses by shopping directly from them.</p>
+           <a >Explore Businesses (7OT LIEN MTA3 PAGE EL BRANDS LENA) </a> 
+        </section>
+
+        <!-- Featured Businesses -->
+        <section class="featured-businesses">
+            <div class="business-grid">
+                {# Loop through featured businesses (replace with real data later) #}
+                <div class="business-card">
+                    
+                    <h3>GrowBiz</h3>
+                    <p>GrowBiz helps small businesses in Tunisia create an online presence, manage product listings, 
+                    and sell directly to customers. It provides social media management to help businesses digitize and grow. Additionally, 
+                    business owners can link their social media profiles and manage their online presence through a dashboard..</p>
+                </div>
+                {# Repeat for other businesses #}
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3>1. Create an Account</h3>
+                    <p>Register your business in minutes.</p>
+                </div>
+                <div class="step">
+                    <h3>2. List Your Products</h3>
+                    <p>Upload your products and set prices.</p>
+                </div>
+                <div class="step">
+                    <h3>3. Start Selling</h3>
+                    <p>Reach customers and grow your brand.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section class="why-choose-us">
+            <h2>Why Choose GrowBiz?</h2>
+            <ul>
+                <li>🚀 Free to Join</li>
+                <li>📢 Marketing Support</li>
+                <li>📦 Easy Product Management</li>
+            </ul>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta">
+            <h2>Ready to Grow Your Business?</h2>
+            <a href="{{ path('app_register_business') }}" class="btn">Join Now</a>
+        </section>
+    </div>
+{% endblock %}

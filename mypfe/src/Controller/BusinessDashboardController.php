@@ -29,6 +29,7 @@ class BusinessDashboardController extends AbstractController
     {
         /** @var Business $business */
         $business = $this->security->getUser();
+        
         if (!$business) {
             throw $this->createAccessDeniedException('User not authenticated');
         }

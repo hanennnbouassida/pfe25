@@ -2,7 +2,7 @@
 
 {% block title %}Delete Product{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Delete Product</h1>
     <p>Are you sure you want to delete the product "{{ product.getProductName() }}"?</p>
     <form action="{{ path('product_delete_confirm', {'id': product.id}) }}" method="post">

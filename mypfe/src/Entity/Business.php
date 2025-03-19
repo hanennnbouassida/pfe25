@@ -47,6 +47,9 @@ class Business extends User
     #[ORM\Column(type: 'string', length: 255, options: ['default' => 'pending'])]
     private ?string $status = 'pending';
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $logoBase64 = null;
+
     /**
      * @var Collection<int, Product>
      */
@@ -219,6 +222,15 @@ class Business extends User
 
         return $this;
     }
+    public function getLogoBase64(): ?string
+    {
+        return $this->logoBase64;
+    }
 
+    public function setLogoBase64(?string $logoBase64): self
+    {
+        $this->logoBase64 = $logoBase64;
+        return $this;
+    }
 
 }

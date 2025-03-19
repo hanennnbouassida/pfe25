@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class BusinessRegistrationController extends AbstractController
 {
@@ -20,6 +21,22 @@ class BusinessRegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle logo file upload and convert to Base64
+            $logoFile = $form->get('logo')->getData();
+            if ($logoFile) {
+                try {
+                    // Get the file content and encode it as Base64
+                    $fileContent = file_get_contents($logoFile->getPathname());
+                    $base64Logo = base64_encode($fileContent);
+
+                    // Set the Base64-encoded logo in the entity
+                    $business->setLogoBase64($base64Logo);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'File upload failed: ' . $e->getMessage());
+                    return $this->redirectToRoute('app_register_business');
+                }
+            }
+
             // Hash the password
             $business->setPassword(
                 $passwordHasher->hashPassword(
@@ -30,7 +47,6 @@ class BusinessRegistrationController extends AbstractController
 
             // Assign ROLE_BUSINESS to the new user
             $business->setRoles(['ROLE_BUSINESS']);
-         
 
             // Persist and save to the database
             $entityManager->persist($business);
@@ -38,9 +54,9 @@ class BusinessRegistrationController extends AbstractController
 
             // Check role and redirect accordingly
             if (in_array('ROLE_BUSINESS', $business->getRoles())) {
-                return $this->redirectToRoute('dashboard_business');
+                return $this->redirectToRoute('app_login');
             }
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register_business.html.twig', [

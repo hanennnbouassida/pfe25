@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,6 +30,11 @@ class BusinessRegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
+            ])
+            ->add('logo', FileType::class, [
+                'label' => 'Logo (JPEG or PNG)',
+                'mapped' => false, // Not mapped to entity directly
+                'required' => false, // Logo is optional
             ]);
     }
 

@@ -41,10 +41,10 @@ class ClientRegistrationController extends AbstractController
 
             // Check role and redirect accordingly
             if (in_array('ROLE_CLIENT', $client->getRoles())) {
-                return $this->redirectToRoute('dashboard_client');
+                return $this->redirectToRoute('app_login');
             }
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register_client.html.twig', [

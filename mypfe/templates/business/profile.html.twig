@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="container-profile">
+    <h1>Welcome, {{ business.businessName }}!</h1>
+    
+    <!-- Display Business Logo -->
+    {% if business.logoBase64 %}
+        <img src="data:image/jpeg;base64,{{ business.logoBase64 }}" alt="{{ business.businessName }} Logo" class="img-fluid" style="max-width: 200px;">
+    {% else %}
+        <p>No logo available.</p>
+    {% endif %}
+    
+    <h2>Business Information</h2>
+    <p><strong>Name:</strong> {{ business.businessName }}</p>
+    <p><strong>Owner:</strong> {{ business.ownerName }} {{ business.ownerLastName }}</p>
+    <p><strong>Description:</strong> {{ business.description }}</p>
+    <p><strong>Address:</strong> {{ business.adresse }}</p>
+    <p><strong>Phone:</strong> {{ business.phone }}</p>
+
+    <h3>Social Media Links</h3>
+    <ul>
+        {% if business.getIgTT %}
+            <li><a href="{{ business.getIgTT }}" target="_blank">Instagram</a></li>
+        {% endif %}
+        {% if business.getFbLink %}
+            <li><a href="{{ business.getFbLink }}" target="_blank">Facebook</a></li>
+        {% endif %}
+        {% if business.getTtLink %}
+            <li><a href="{{ business.getTtLink }}" target="_blank">Twitter</a></li>
+        {% endif %}
+    </ul>
+
+    <h3>Products</h3>
+    {% if business.products|length > 0 %}
+        <ul>
+            {% for product in business.products %}
+                <li>{{ product.getProductName }} - DT{{ product.getPrice }}- {{ product.getProductDescription }} </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+
+    <p class="btn btn-primary">Edit Profile</p>
+</div>
+
+
+{% endblock %}

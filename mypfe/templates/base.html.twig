@@ -1,17 +1,109 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home | My Website{% endblock %}</title>
+<link rel="stylesheet" href="{{ asset('assets/styles/style.css') }}">
+     
+</head>
+<body>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {# Header Section #}
+    <header>
+        <div class="logo">
+                <p> My Website LOGO </p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ path('home') }}">Home</a></li>
+                <li><a href="{{ path('shop') }}">Shop</a></li>
+                <li><a href="{{ path('brands') }}">Brands</a></li>
+                <li><a href="{{ path('about') }}">About (Contact)</a></li>  
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            {# Search Bar #}
+           {# <form action="{{ path('shop') }}" method="GET"> #}
+                <input type="text" name="search" placeholder="Search...">
+            </form>
+
+            {# Brands Section (Display Profile of the Business Owners) #}
+            <div class="profile">
+                 {#<a href="{{ path('profile') }}">profile</a>#}
+            </div>
+
+            {# Shopping Cart #}
+            <div class="shopping-cart">
+                <i class="fas fa-shopping-cart"></i><a href="{{ path('cart') }}">cart</a>
+            </div> 
+
+            {# Login/Sign-Up #}
+            <div class="auth-links">
+                <a href="{{ path('app_login') }}">Login</a> | <a href="{{ path('app_register_client') }}">Sign Up</a>
+            </div>
+
+            {# Dashboard Button (Access for Business Owners) #}
+            <div class="dashboard">
+                <a href="{{ path('dashboard_business') }}">Dashboard</a>
+            </div>
+
+            {# Blog Button (Access for Business Owners) #}
+            {#<div class="blog">
+                <a href="{{ path('blog') }}">Blog</a>
+            </div> #}
+        </div>
+    </header>
+
+    {# Main Content Block #}
+    <main>
+        {% block content %}
+        <p>body content goes here</p>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    </main>
+
+    {# Footer Section #}
+    
+    <footer>
+        <div class="logo">
+                <p> GrowBiz </p>
+        </div>
+
+        <div class="footer-menu">
+            <ul>
+                <li><a href="{{ path('home') }}">Home</a></li>
+                <li><a href="{{ path('shop') }}">Shop</a></li>
+                <li><a href="{{ path('brands') }}">Brands</a></li>
+                <li><a href="{{ path('about') }}">About (Contact)</a></li>  
+            </ul>
+        </div>
+
+        <div class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li>>Category 1</a></li>
+                <li>Category 2</a></li>
+                <li>Category 3</a></li>
+            </ul>
+        </div>
+
+        <div class="contact-info">
+            <h3>Contact Us</h3>
+            <p>Email: <a href="mailto:info@mywebsite.com">info@GrowBiz.com</a></p>
+            <p>Phone: 44408189</p>
+            <h3>Follow us:</h3>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-legal">
+            <p>Terms and Conditions | Privacy Policy</p>
+            <p>&copy; 2025 My Website. All rights reserved.</p>
+        </div>
+    </footer>
+    
+</body>
 </html>
