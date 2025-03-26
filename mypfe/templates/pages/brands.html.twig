@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Brands{% endblock %}
+
+{% block content %}
+    <h1>Brands</h1>
+        <h1>Brands</h1>
+
+    
+
+
+    <div class="grid-container">
+        {% for business in businesses %}
+            <div class="business">
+                <div class="business-logo">
+                  {% if business.logoBase64 %}
+    <a href="{{ path('business_profile', {id: business.id}) }}">
+        <img src="data:image/png;base64,{{ business.logoBase64 }}" alt="Business Logo" />
+    </a>
+{% else %}
+    <p>No logo available.</p>
+{% endif %}
+                </div>
+                <div class="business-name">
+                    <strong>{{ business.businessName }}</strong>
+                </div>
+                <div class="social-media">
+                    {% if business.getIgTT %}
+                        <a href="{{ business.getIgTT }}" target="_blank">Instagram</a> |
+                    {% endif %}
+                    {% if business.getFbLink %}
+                        <a href="{{ business.getFbLink }}" target="_blank">Facebook</a> |
+                    {% endif %}
+                    {% if business.getTtLink %}
+                        <a href="{{ business.getTtLink }}" target="_blank">TikTok</a>
+                    {% endif %}
+                    {% if not business.getIgTT and not business.getFbLink and not business.getTtLink %}
+                        No Links
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p>No brands found.</p>
+        {% endfor %}
+    </div>
+
+<style>
+/* Grid layout for businesses */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust column size */
+    gap: 20px;
+    padding: 20px;
+    justify-content: center; /* Centering items */
+    align-items: start;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Business card */
+.business {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+}
+
+/* Hover effect */
+.business:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Logo */
+.business-logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+/* Business name */
+.business-name {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Social media links */
+.social-media a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.9rem;
+    margin: 0 5px;
+}
+
+.social-media a:hover {
+    text-decoration: underline;
+}
+</style>
+{% endblock %}

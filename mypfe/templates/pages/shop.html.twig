@@ -9,22 +9,29 @@
           <h2>All Products</h2>
       <!-- Product List -->
       <div class="product-list">
-        {% for product in products %}
-          <div class="product-item">
-<img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" alt="{{ product.getProductName }}">
+    {% for product in products %}
+        <div class="product-item">
+            <img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" alt="{{ product.getProductName }}" width="50" height="50">
             <h3>{{ product.getProductName }}</h3>
-            <p>{{ product.price}} |DT </p>
+            
+            {% if product.discountPercentage > 0 %}
+                <p style="color: red;">-{{ product.discountPercentage }}% OFF</p>
+                <p>
+                    <s>{{ product.price }} TND</s> 
+                    <strong>{{ (product.price * (1 - product.discountPercentage / 100))|number_format(2, '.', ',') }} TND</strong>
+                </p>
+            {% else %}
+                <p>{{ product.price }} TND</p>
+            {% endif %}
+            
             <p>{{ product.getProductDescription }}</p>
-            <button > View Details</button>
-            <button > Add To Cart</button>
-          </div>
-        {% else %}
-          <p>No products found for the selected filters.</p>
-        {% endfor %}
-      </div>
-
-     
-  </div> <!-- End of shop-page -->
+            <button>View Details</button>
+            <button onclick="location.href='{{ path('cart_add', {'id': product.id}) }}'">Add To Cart</button>
+        </div>
+    {% else %}
+        <p>No products found for the selected filters.</p>
+    {% endfor %}
+</div> 
 
 
   <style>

@@ -13,7 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ProductType extends AbstractType
 {
@@ -23,7 +25,14 @@ class ProductType extends AbstractType
             ->add('product_name', TextType::class)
             ->add('product_description', TextType::class)
             ->add('price', MoneyType::class)
-            ->add('Category', EntityType::class, [
+            ->add('qte', IntegerType::class, [
+                'label' => 'Quantity',
+                'required' => true,
+                'attr' => [
+                    'min' => 1, // Ensures at least one product is required
+                ],
+            ])
+            ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
@@ -41,6 +50,22 @@ class ProductType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid JPEG or PNG image',
                     ])
                 ],
+            ])
+
+            ->add('discountPercentage', NumberType::class, [
+                'required' => false,
+                'scale' => 2,
+                'label' => 'Discount Percentage (%)'
+            ])
+            ->add('promotionStartDate', DateTimeType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'label' => 'Promotion Start Date'
+            ])
+            ->add('promotionEndDate', DateTimeType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'label' => 'Promotion End Date'
             ]);
     }
 

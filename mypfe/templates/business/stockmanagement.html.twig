@@ -1,0 +1,34 @@
+{# templates/stockmanagement.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock Management{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Stock Management</h2>
+        
+        {% for product in products %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.productName }}</h5>
+                    <p class="card-text">
+                        Current Stock: <span class="badge bg-{{ product.qte > 0 ? 'success' : 'danger' }}">
+                            {{ product.qte }}
+                        </span>
+                    </p>
+                    
+                    <form action="{{ path('stock_management_update', {'id': product.id}) }}" method="post" class="row g-3">
+                        <div class="col-auto">
+                            <input type="number" name="stock_change" class="form-control" min="-{{ product.qte }}" placeholder="Change amount" required>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Update Stock</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info">No products found for this business.</div>
+        {% endfor %}
+    </div>
+{% endblock %}

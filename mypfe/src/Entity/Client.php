@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client extends User
 {
@@ -20,6 +21,8 @@ class Client extends User
     #[ORM\Column]
     private ?int $num_tel = null;
 
+  
+
     /**
      * @var string|null
      */
@@ -27,6 +30,10 @@ class Client extends User
 
     #[ORM\Column(length: 255)]
     private ?string $status = 'active';
+
+    #[ORM\Column(length: 255)]
+    private ?string $ville = null;
+
 
     public function getNom(): ?string
     {
@@ -99,4 +106,17 @@ class Client extends User
 
         return $this;
     }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+   
 }

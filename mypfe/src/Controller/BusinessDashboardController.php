@@ -163,5 +163,56 @@ class BusinessDashboardController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    
+    //----------------------------------------
+    // ORDER MANAGEMENT
+     /* #[Route('/business/orders', name: 'business_orders')]
+public function orders(EntityManagerInterface $entityManager): Response
+{
+    $orders = $entityManager->getRepository(Order::class)->findAll();
+
+    return $this->render('business/orders.html.twig', [
+        'orders' => $orders
+    ]);
+} */
+//{% for order in orders %}
+//<p>Order #{{ order.id }} - Status: {{ order.status }} - Total: {{ order.getTotalAmount() }}DT</p>
+//{% endfor %}
+#[Route('/stock-management/{business_id}', name: 'stock_management')]
+    public function index(EntityManagerInterface $em, int $business_id): Response
+    {
+        // Get the business
+        $business = $em->getRepository(Business::class)->find($business_id);
+        
+        if (!$business) {
+            throw $this->createNotFoundException('Business not found');
+        }
+
+        // Get products for this business
+        $products = $em->getRepository(Product::class)->findBy(['business' => $business]);
+        
+        return $this->render('business/stockmanagement.html.twig', [
+            'products' => $products,
+            'business' => $business
+        ]);
+    }
+
+    #[Route('/stock-management/update/{id}', name: 'stock_management_update', methods: ['POST'])]
+    public function updateStock(Request $request, EntityManagerInterface $em, int $id): Response
+    {
+        $product = $em->getRepository(Product::class)->find($id);
+        
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
+        }
+
+        $stockChange = (int)$request->request->get('stock_change');
+        $product->setQte($product->getQte() + $stockChange);
+        
+        $em->flush();
+
+        $this->addFlash('success', 'Stock updated successfully!');
+        return $this->redirectToRoute('stock_management', [
+            'business_id' => $product->getBusiness()->getId()
+        ]);
+    }
 }

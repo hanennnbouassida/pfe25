@@ -11,7 +11,7 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-        <h2>see Profile</h2>
+        <h2>Settings & Profile Management</h2>
     <div>
         <a href="{{ path('profile', {'id': business.id}) }}" class="btn btn-secondary">View Profile</a>
     </div>
@@ -21,20 +21,34 @@
     <table>
     <thead>
         <tr>
+            <th>Product Image</th>
             <th>Product ID</th>
             <th>Product Name</th>
             <th>Product Description</th>
            <th>Product Price</th>
+            <th>Product Quantity</th>
+            <th>Stock Status</th>
+            <th> Product Status</th>
+            <th>Category</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for product in products %}
         <tr>
+    <td><div>
+    <img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" 
+         alt="{{ product.getProductName() }}" 
+         style="width: 50px; height: 50px; object-fit: cover;" />
+</div></td>
             <td>{{ product.id }}</td>
-            <td>{{ product.getProductName() }}</td>
+            <td>{{ product.getProductName }}</td>
             <td>{{ product.getProductDescription }}</td>
             <td>{{ product.getPrice }}</td>
+            <td>{{ product.getQte }}</td>
+            <td>{{ product.StockStats }}</td>
+            <td>{{ product.status }}</td>
+            <td>{{ product.category.getName() }}</td>
              <td>
                 <a href="{{ path('product_show', {'id': product.id}) }}">View</a>
                 <a href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>
@@ -44,13 +58,20 @@
         {% endfor %}
     </tbody>
 </table>
+
+ <h2>Stock Management</h2>
+<a href="{{ path('stock_management', {'business_id': business.id}) }}" class="btn btn-primary"> Manage Stock</a> 
+
+
         <h2>Order management</h2>
+        <p>list products ordered by client X </p>
+        
         <h2>sales management</h2>
+        <p>income/products sold/products retrieved/total sales/most sold product</p>
+
          <h2>Custumors & Reviews management</h2>
 
          <h2>Promotions and coupons</h2>
-
-         <h2> Settings & Account Management </h2>
-        <h2> Stock Management </h2>
+       <p>nejem na3mel total discount mal all products owned by the logged in businesss</p>
 
 {% endblock %}

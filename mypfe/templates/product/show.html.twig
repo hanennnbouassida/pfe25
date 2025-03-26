@@ -8,10 +8,17 @@
     <p>Name: {{ product.getProductName() }}</p>
     <p>Description: {{ product.getProductDescription }}</p>
     <p>Price: {{ product.getPrice }}</p>
+    <p>Quantity: {{ product.getQte }}</p>
+    <p>Status: {{ product.status }}</p>
+    <p>Category: {{ product.category.getName() }}</p>
     
     <div>
-     <img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" alt="{{ product.getProductName() }}" />
-    </div>
+    <img src="{{ asset('uploads/products/' ~ product.imageproduct) }}" 
+         alt="{{ product.getProductName() }}" 
+         style="width: 150px; height: 150px; object-fit: cover;" />
+</div>
+
+
 
     <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-primary">Edit</a>
     <a href="{{ path('dashboard_business') }}" class="btn btn-secondary">Back to Dashboard</a>

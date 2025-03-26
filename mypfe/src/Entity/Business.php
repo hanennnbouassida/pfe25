@@ -53,15 +53,22 @@ class Business extends User
     /**
      * @var Collection<int, Product>
      */
-    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'Business')]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'business')]
     private Collection $products;
+
+  
+
+    #[ORM\Column(length: 255)]
+    private ?string $ville = null;
 
     
     public function __construct()
     {
         $this->products = new ArrayCollection();
+
     } // Values: pending, approved, rejected
 
+   
     public function getBusinessName(): ?string
     {
         return $this->businessName;
@@ -199,6 +206,7 @@ class Business extends User
     public function getProducts(): Collection
     {
         return $this->products;
+        
     }
 
     public function addProduct(Product $product): static
@@ -233,4 +241,16 @@ class Business extends User
         return $this;
     }
 
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+   
 }

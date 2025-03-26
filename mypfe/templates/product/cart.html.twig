@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block content %}
+    <h1>Shopping Cart</h1>
+
+    {% if cart is empty %}
+        <p>Your cart is empty.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                    <tr>
+                        <td>{{ item.product.getProductName }}</td>
+                        <td>
+                            <a href="{{ path('cart_decrease', {id: item.product.id}) }}">-</a>
+                            {{ item.quantity }}
+                            <a href="{{ path('cart_increase', {id: item.product.id}) }}">+</a>
+                        </td>
+                        <td>
+                            {% if item.product.DiscountPercentage > 0 %}
+                                <s>{{ item.product.price }} TND</s>  {# Strike-through original price #}
+                                <strong>{{ (item.product.price * (1 - item.product.DiscountPercentage / 100))|number_format(2, '.', ',') }} TND</strong>
+                            {% else %}
+                                {{ item.product.price }} TND
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product.DiscountPercentage > 0 %}
+                                -{{ item.product.DiscountPercentage }}% OFF
+                            {% else %}
+                                No Promotion
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product.DiscountPercentage > 0 %}
+                                <s>{{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} TND</s>
+                                <strong>{{ (item.product.price * item.quantity * (1 - item.product.DiscountPercentage / 100)) | number_format(2, '.', ',') }} TND</strong>
+                            {% else %}
+                                {{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} TND
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('cart_remove', {id: item.product.id}) }}">Remove</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>
+            <strong> Total: 
+                {% set discounted_total = 0 %}
+                {% for item in cart %}
+                    {% set discounted_total = discounted_total + (item.product.price * item.quantity * (1 - item.product.DiscountPercentage / 100)) %}
+                {% endfor %}
+                {{ discounted_total | number_format(2, '.', ',') }} TND
+            </strong>
+        </p>
+        <a href="{{ path('cart_clear') }}" class="btn btn-danger">Clear Cart</a>
+        <a href="#" class="btn btn-primary">Order</a>
+    {% endif %}
+{% endblock %}

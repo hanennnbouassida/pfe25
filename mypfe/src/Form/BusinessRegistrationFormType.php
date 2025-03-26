@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class BusinessRegistrationFormType extends AbstractType
 {
@@ -21,6 +23,37 @@ class BusinessRegistrationFormType extends AbstractType
             ->add('businessName')
             ->add('description')
             ->add('phone')
+            ->add('ville', ChoiceType::class, [
+                'choices' => [
+                    'Tunis' => 'Tunis',
+                    'Ariana' => 'Ariana',
+                    'Ben Arous' => 'Ben Arous',
+                    'Manouba' => 'Manouba',
+                    'Nabeul' => 'Nabeul',
+                    'Zaghouan' => 'Zaghouan',
+                    'Bizerte' => 'Bizerte',
+                    'Beja' => 'Beja',
+                    'Jendouba' => 'Jendouba',
+                    'Kef' => 'Kef',
+                    'Siliana' => 'Siliana',
+                    'Sousse' => 'Sousse',
+                    'Monastir' => 'Monastir',
+                    'Mahdia' => 'Mahdia',
+                    'Sfax' => 'Sfax',
+                    'Kairouan' => 'Kairouan',
+                    'Kasserine' => 'Kasserine',
+                    'Sidi Bouzid' => 'Sidi Bouzid',
+                    'Gabes' => 'Gabes',
+                    'Medenine' => 'Medenine',
+                    'Tataouine' => 'Tataouine',
+                    'Gafsa' => 'Gafsa',
+                    'Tozeur' => 'Tozeur',
+                    'Kebili' => 'Kebili',
+                ],
+                'placeholder' => 'Select your city',
+                'label' => 'Ville',
+                'required' => true,
+            ])
             ->add('adresse')
             ->add('ig_TT')
             ->add('fb_link')
