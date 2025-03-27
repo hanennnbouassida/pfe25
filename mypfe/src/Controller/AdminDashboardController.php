@@ -14,6 +14,7 @@ use App\Entity\Admin;
 use App\Form\AdminType; // Ensure this class exists in the specified namespace
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class AdminDashboardController extends AbstractController
 {   
     //Dashboard Overview

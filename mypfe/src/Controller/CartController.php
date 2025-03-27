@@ -6,68 +6,66 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
-use App\Entity\Client;
-use Symfony\Bundle\SecurityBundle\Security;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-
-
 
 class CartController extends AbstractController
 {
     #[Route('/cart', name: 'cart')]
     public function index(SessionInterface $session, ProductRepository $productRepository): Response
     {
-        $cart = $session->get('cart', []);
-        $cartDetails = [];
+        $sessionCart = $session->get('cart', []);
+        $cart = [];
         $total = 0;
 
-        // Prepare cart data with additional product info if needed
-        foreach ($cart as $productId => $item) {
+        foreach ($sessionCart as $productId => $item) {
             $product = $productRepository->find($productId);
-            $cartDetails[$productId] = [
-                'id' => $productId,
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'image' => $item['image'],
+            if (!$product) {
+                unset($sessionCart[$productId]); // Remove invalid product
+                continue;
+            }
+
+            $cart[] = [
+                'product' => $product,
                 'quantity' => $item['quantity'],
-                'product' => $product // Optional: only if you need full entity in template
+                // Price calculations are handled in Twig (as per your template)
             ];
-            $total += $item['price'] * $item['quantity'];
+
+            // Calculate total with discount (if needed for backend logic)
+            $discountedPrice = $product->getDiscountPercentage() > 0 
+                ? $product->getPrice() * (1 - $product->getDiscountPercentage() / 100)
+                : $product->getPrice();
+            $total += $discountedPrice * $item['quantity'];
         }
 
+        $session->set('cart', $sessionCart); // Update session in case of invalid products
+
         return $this->render('product/cart.html.twig', [
-            'cart' => $cartDetails,
+            'cart' => $cart, // Matches your Twig template variable
             'total' => $total
         ]);
     }
 
     #[Route('/cart/add/{id}', name: 'cart_add')]
-    public function addToCart(Product $product, SessionInterface $session)
+    public function addToCart(Product $product, SessionInterface $session): Response
     {
         $cart = $session->get('cart', []);
-    
-        // Calculate discounted price
-        $discount = $product->getDiscountPercentage(); // Assuming getDiscount() method exists
-        $finalPrice = $discount > 0 ? $product->getPrice() * (1 - $discount / 100) : $product->getPrice();
-    
-        // Add product to cart
-        if (isset($cart[$product->getId()])) {
-            $cart[$product->getId()]['quantity']++;
+        $productId = $product->getId();
+
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity']++;
         } else {
-            $cart[$product->getId()] = [
-                'product' => $product,
+            $cart[$productId] = [
                 'quantity' => 1,
-                'price' => $finalPrice // Store discounted price
+                // Store only minimal data (price calculations are in Twig)
             ];
         }
-    
+
         $session->set('cart', $cart);
-    
-        return $this->redirectToRoute('cart');
+        $this->addFlash('success', 'Product added to cart!');
+        return $this->redirectToRoute('shop');
     }
-    
 
     #[Route('/cart/increase/{id}', name: 'cart_increase')]
     public function increase(Product $product, SessionInterface $session): Response
@@ -78,7 +76,6 @@ class CartController extends AbstractController
         if (isset($cart[$productId])) {
             $cart[$productId]['quantity']++;
             $session->set('cart', $cart);
-            $this->addFlash('success', 'Quantity increased!');
         }
 
         return $this->redirectToRoute('cart');
@@ -93,10 +90,8 @@ class CartController extends AbstractController
         if (isset($cart[$productId])) {
             if ($cart[$productId]['quantity'] > 1) {
                 $cart[$productId]['quantity']--;
-                $this->addFlash('success', 'Quantity decreased!');
             } else {
                 unset($cart[$productId]);
-                $this->addFlash('warning', 'Product removed from cart!');
             }
             $session->set('cart', $cart);
         }
@@ -113,7 +108,7 @@ class CartController extends AbstractController
         if (isset($cart[$productId])) {
             unset($cart[$productId]);
             $session->set('cart', $cart);
-            $this->addFlash('warning', 'Product removed from cart!');
+            $this->addFlash('success', 'Product removed from cart!');
         }
 
         return $this->redirectToRoute('cart');
@@ -122,76 +117,8 @@ class CartController extends AbstractController
     #[Route('/cart/clear', name: 'cart_clear')]
     public function clear(SessionInterface $session): Response
     {
-        $session->set('cart', []);
-        $this->addFlash('warning', 'Cart cleared!');
-        return $this->redirectToRoute('cart');
-    }
-
-    #[Route('/cart/update', name: 'cart_update', methods: ['POST'])]
-    public function update(Request $request, SessionInterface $session): Response
-    {
-        $cart = $session->get('cart', []);
-        $quantities = $request->request->all()['quantity'];
-
-        foreach ($quantities as $productId => $quantity) {
-            if (isset($cart[$productId])) {
-                $cart[$productId]['quantity'] = max(1, (int)$quantity);
-            }
-        }
-
-        $session->set('cart', $cart);
-        $this->addFlash('success', 'Cart updated!');
-        return $this->redirectToRoute('cart');
-    }
-
-
-/*
-    #[Route('/cart/create-order', name: 'cart_create_order')]
-    public function createOrder(SessionInterface $session, EntityManagerInterface $em, ProductRepository $productRepo)
-    {
-        $client = $this->getUser();
-        if (!$client) {
-            throw $this->createAccessDeniedException('User not authenticated.');
-        }
-    
-        $cart = $session->get('cart', []);
-        if (empty($cart)) {
-            $this->addFlash('error', 'Your cart is empty.');
-            return $this->redirectToRoute('cart');
-        }
-    
-        $order = new Commande();
-        $order->setClient($client);
-        $order->setCommandeDate(new \DateTime());
-        $order->setStatus('Pending');
-    
-        $total = 0;
-        foreach ($cart as $productId => $item) {
-            // Get fresh product reference from database
-            $product = $em->getReference(Product::class, $productId);
-            // OR: $product = $productRepo->find($productId);
-            
-            $price = $product->getPrice() * $item['quantity'];
-    
-            $orderItem = new OrderItem();
-            $orderItem->setProduct($product);
-            $orderItem->setQuantity($item['quantity']);
-            $orderItem->setPrice($price);
-            $orderItem->setOrder($order);
-    
-            $total += $price;
-            $em->persist($orderItem);
-        }
-    
-        $order->setTotalPrice($total);
-        $em->persist($order);
-        $em->flush();
-    
         $session->remove('cart');
-        $this->addFlash('success', 'Order created successfully.');
-        return $this->redirectToRoute('order_show', ['id' => $order->getId()]);
+        $this->addFlash('success', 'Cart cleared successfully!');
+        return $this->redirectToRoute('cart');
     }
-
-*/
-    
 }
